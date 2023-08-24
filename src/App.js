@@ -15,7 +15,12 @@ function App() {
   }, []); // Executa somente uma vez, ao montar o componente
 
   const addTask = (text) => {
-    const newTask = { id: Date.now(), text, completed: false };
+    const newTask = {
+      id: Date.now(),
+      text,
+      completed: false,
+      createdAt: new Date().toISOString() // Definir o createdAt como um timestamp ISO
+    };
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
