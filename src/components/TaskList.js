@@ -2,6 +2,9 @@ import React from 'react';
 import Task from './Task';
 
 const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
+  // Ordenar as tarefas: tarefas não concluídas primeiro, depois tarefas concluídas
+  const sortedTasks = tasks.sort((a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1));
+
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
@@ -9,15 +12,14 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
           <thead>
             <tr>
               <th scope="col">Tarefa</th>
-              <th scope="col" style={{ width: '15%' }}>Data de Criação</th> {/* Adicione a coluna Data de Criação */}
-              <th scope="col" style={{ width: '15%' }}>Hora de Criação</th> {/* Adicione a coluna Hora de Criação */}
+              <th scope="col" style={{ width: '15%' }}>Data de Criação</th>
+              <th scope="col" style={{ width: '15%' }}>Hora de Criação</th>
               <th scope="col" style={{ width: '10%' }}>Status</th>
               <th scope="col" style={{ width: '10%' }}>Exclusão</th>
-
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
+            {sortedTasks.map((task) => (
               <tr key={task.id}>
                 <td
                   className={`task-text ${task.completed ? 'completed' : ''}`}
@@ -26,8 +28,8 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
                 >
                   {task.text}
                 </td>
-                <td style={{ width: '10%' }}>{new Date(task.createdAt).toLocaleDateString()}</td> {/* Exibir a data de criação */}
-                <td style={{ width: '10%' }}>{new Date(task.createdAt).toLocaleTimeString()}</td> {/* Exibir a hora de criação */}
+                <td style={{ width: '10%' }}>{new Date(task.createdAt).toLocaleDateString()}</td>
+                <td style={{ width: '10%' }}>{new Date(task.createdAt).toLocaleTimeString()}</td>
                 <td style={{ width: '10%' }}>
                   <button
                     className={`btn ${task.completed ? 'btn-secondary' : 'btn-success'}`}
@@ -44,7 +46,6 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
                     Excluir
                   </button>
                 </td>
-
               </tr>
             ))}
           </tbody>
