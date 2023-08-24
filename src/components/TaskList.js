@@ -9,8 +9,8 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
           <thead>
             <tr>
               <th scope="col">Tarefa</th>
-              <th scope="col" className="w-auto">Status</th>
-              <th scope="col" className="w-auto">Exclusão</th>
+              <th scope="col" style={{ width: '10%' }}>Status</th> {/* Definir largura para 10% */}
+              <th scope="col" style={{ width: '10%' }}>Exclusão</th> {/* Definir largura para 10% */}
             </tr>
           </thead>
           <tbody>
@@ -23,7 +23,7 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
                 >
                   {task.text}
                 </td>
-                <td className="w-auto">
+                <td style={{ width: '10%' }}> {/* Definir largura para 10% */}
                   <button
                     className={`btn ${task.completed ? 'btn-secondary' : 'btn-success'}`}
                     onClick={() => onCompleteTask(task.id)}
@@ -31,7 +31,7 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
                     {task.completed ? 'Desfazer' : 'Completa'}
                   </button>
                 </td>
-                <td className="w-auto">
+                <td style={{ width: '10%' }}> {/* Definir largura para 10% */}
                   <button
                     className="btn btn-danger"
                     onClick={() => onDeleteTask(task.id)}
