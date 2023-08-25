@@ -5,13 +5,15 @@ import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
 import Login from './components/Login';
 import Register from './components/Register';
+import Saudacao from './components/Saudacao';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Faculdade');
   
   const tabs = ['Faculdade', 'Trabalho', 'Casa'];
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showRegister, setShowRegister] = useState(false); // Track whether to show the registration form
+  const [showRegister, setShowRegister] = useState(false); 
+  const [username, setUsername] = useState('');
   const [tasks, setTasks] = useState({
     Faculdade: [],
     Trabalho: [],
@@ -67,12 +69,17 @@ function App() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className="App">
       <Header />
       {isLoggedIn ? (
         <>
-          <ul className="nav nav-tabs mb-3">
+          <Saudacao username={username} onLogout={handleLogout} />
+          <ul className="nav nav-tabs mb-3 app-container">
             {tabs.map((tab) => (
               <li className="nav-item" key={tab}>
                 <button
@@ -94,7 +101,13 @@ function App() {
       ) : (
         <>
           {!showRegister && (
-            <Login onLogin={() => setIsLoggedIn(true)} onRegister={() => setShowRegister(true)} />
+            <Login
+              onLogin={(user) => {
+                setUsername(user.username); // Armazene o nome do usuário
+                setIsLoggedIn(true);
+              }}
+              onRegister={() => setShowRegister(true)}
+            />
           )}
           {showRegister && (
             <Register onRegister={() => setShowRegister(false)} />
