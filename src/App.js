@@ -5,37 +5,57 @@ import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [activeTab, setActiveTab] = useState('Faculdade');
+
+  const tabs = ['Faculdade', 'Trabalho', 'Casa'];
+
+  const [tasks, setTasks] = useState({
+    Faculdade: [],
+    Trabalho: [],
+    Casa: [],
+  });
 
   useEffect(() => {
     const storedTasks = localStorage.getItem('tasks');
     if (storedTasks) {
       setTasks(JSON.parse(storedTasks));
     }
-  }, []); // Executa somente uma vez, ao montar o componente
+  }, []);
 
   const addTask = (text) => {
     const newTask = {
       id: Date.now(),
       text,
       completed: false,
-      createdAt: new Date().toISOString() // Definir o createdAt como um timestamp ISO
+      createdAt: new Date().toISOString(),
     };
-    const updatedTasks = [...tasks, newTask];
+    
+    const updatedTasks = {
+      ...tasks,
+      [activeTab]: [...(tasks[activeTab] || []), newTask],
+    };
+    
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   };
+  
 
   const completeTask = (taskId) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    );
+    const updatedTasks = {
+      ...tasks,
+      [activeTab]: tasks[activeTab].map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      ),
+    };
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   };
 
   const deleteTask = (taskId) => {
-    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    const updatedTasks = {
+      ...tasks,
+      [activeTab]: tasks[activeTab].filter((task) => task.id !== taskId),
+    };
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   };
@@ -47,13 +67,29 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <section className='app-container'>
+      <ul className="nav nav-tabs mb-3">
+        {tabs.map((tab) => (
+          <li className="nav-item" key={tab}>
+            <button
+              className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          </li>
+        ))}
+      </ul>
+      
       <AddTaskForm onAddTask={addTask} />
       <TaskList
-        tasks={tasks}
+        tasks={tasks[activeTab] || []}
         onCompleteTask={completeTask}
         onDeleteTask={deleteTask}
       />
+      </section>
     </div>
+    
   );
 }
 

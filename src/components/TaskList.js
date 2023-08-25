@@ -2,7 +2,9 @@ import React from 'react';
 import Task from './Task';
 
 const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
-  // Ordenar as tarefas: tarefas não concluídas primeiro, depois tarefas concluídas
+  if (!tasks || tasks.length === 0) {
+    return <p>Nenhuma tarefa encontrada.</p>;
+  }
   const sortedTasks = tasks.sort((a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1));
 
   return (
