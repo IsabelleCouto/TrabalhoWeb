@@ -3,12 +3,15 @@ import './App.css';
 import Header from './components/Cabecalho';
 import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Faculdade');
-
+  
   const tabs = ['Faculdade', 'Trabalho', 'Casa'];
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showRegister, setShowRegister] = useState(false); // Track whether to show the registration form
   const [tasks, setTasks] = useState({
     Faculdade: [],
     Trabalho: [],
@@ -67,29 +70,38 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <section className='app-container'>
-      <ul className="nav nav-tabs mb-3">
-        {tabs.map((tab) => (
-          <li className="nav-item" key={tab}>
-            <button
-              className={`nav-link ${activeTab === tab ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          </li>
-        ))}
-      </ul>
-      
-      <AddTaskForm onAddTask={addTask} />
-      <TaskList
-        tasks={tasks[activeTab] || []}
-        onCompleteTask={completeTask}
-        onDeleteTask={deleteTask}
-      />
-      </section>
+      {isLoggedIn ? (
+        <>
+          <ul className="nav nav-tabs mb-3">
+            {tabs.map((tab) => (
+              <li className="nav-item" key={tab}>
+                <button
+                  className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <AddTaskForm onAddTask={addTask} />
+          <TaskList
+            tasks={tasks[activeTab] || []}
+            onCompleteTask={completeTask}
+            onDeleteTask={deleteTask}
+          />
+        </>
+      ) : (
+        <>
+          {!showRegister && (
+            <Login onLogin={() => setIsLoggedIn(true)} onRegister={() => setShowRegister(true)} />
+          )}
+          {showRegister && (
+            <Register onRegister={() => setShowRegister(false)} />
+          )}
+        </>
+      )}
     </div>
-    
   );
 }
 
