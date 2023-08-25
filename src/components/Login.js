@@ -32,6 +32,7 @@ const Login = ({ onLogin, onRegister }) => {
                   id="username"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -42,6 +43,7 @@ const Login = ({ onLogin, onRegister }) => {
                   id="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div className="d-grid gap-2">

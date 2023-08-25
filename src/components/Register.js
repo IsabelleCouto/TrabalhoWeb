@@ -29,6 +29,7 @@ const Register = ({ onRegister }) => {
                   id="newUsername"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -39,6 +40,7 @@ const Register = ({ onRegister }) => {
                   id="newPassword"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div className="d-grid gap-2">

@@ -9,21 +9,16 @@ import Saudacao from './components/Saudacao';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Faculdade');
-  
   const tabs = ['Faculdade', 'Trabalho', 'Casa'];
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showRegister, setShowRegister] = useState(false); 
+  const [showRegister, setShowRegister] = useState(false);
   const [username, setUsername] = useState('');
-  const [tasks, setTasks] = useState({
-    Faculdade: [],
-    Trabalho: [],
-    Casa: [],
-  });
+  const [userTasks, setUserTasks] = useState({});
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
+    const storedUserTasks = localStorage.getItem('userTasks');
+    if (storedUserTasks) {
+      setUserTasks(JSON.parse(storedUserTasks));
     }
   }, []);
 
@@ -34,43 +29,56 @@ function App() {
       completed: false,
       createdAt: new Date().toISOString(),
     };
-    
-    const updatedTasks = {
-      ...tasks,
-      [activeTab]: [...(tasks[activeTab] || []), newTask],
+
+    const updatedUserTasks = {
+      ...userTasks,
+      [username]: {
+        ...userTasks[username],
+        [activeTab]: [...(userTasks[username]?.[activeTab] || []), newTask],
+      },
     };
-    
-    setTasks(updatedTasks);
-    saveTasks(updatedTasks);
+
+    setUserTasks(updatedUserTasks);
+    saveUserTasks(updatedUserTasks);
   };
-  
 
   const completeTask = (taskId) => {
-    const updatedTasks = {
-      ...tasks,
-      [activeTab]: tasks[activeTab].map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      ),
+    const updatedUserTasks = {
+      ...userTasks,
+      [username]: {
+        ...userTasks[username],
+        [activeTab]: userTasks[username][activeTab].map((task) =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        ),
+      },
     };
-    setTasks(updatedTasks);
-    saveTasks(updatedTasks);
+
+    setUserTasks(updatedUserTasks);
+    saveUserTasks(updatedUserTasks);
   };
 
   const deleteTask = (taskId) => {
-    const updatedTasks = {
-      ...tasks,
-      [activeTab]: tasks[activeTab].filter((task) => task.id !== taskId),
+    const updatedUserTasks = {
+      ...userTasks,
+      [username]: {
+        ...userTasks[username],
+        [activeTab]: userTasks[username][activeTab].filter(
+          (task) => task.id !== taskId
+        ),
+      },
     };
-    setTasks(updatedTasks);
-    saveTasks(updatedTasks);
+
+    setUserTasks(updatedUserTasks);
+    saveUserTasks(updatedUserTasks);
   };
 
-  const saveTasks = (tasks) => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+  const saveUserTasks = (userTasks) => {
+    localStorage.setItem('userTasks', JSON.stringify(userTasks));
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUsername('');
   };
 
   return (
@@ -93,7 +101,7 @@ function App() {
           </ul>
           <AddTaskForm onAddTask={addTask} />
           <TaskList
-            tasks={tasks[activeTab] || []}
+            tasks={userTasks[username]?.[activeTab] || []}
             onCompleteTask={completeTask}
             onDeleteTask={deleteTask}
           />
@@ -103,7 +111,7 @@ function App() {
           {!showRegister && (
             <Login
               onLogin={(user) => {
-                setUsername(user.username); // Armazene o nome do usuário
+                setUsername(user.username);
                 setIsLoggedIn(true);
               }}
               onRegister={() => setShowRegister(true)}
