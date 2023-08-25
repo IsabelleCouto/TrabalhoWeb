@@ -6,7 +6,6 @@ const Login = ({ onLogin, onRegister }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = () => {
-    // Verifique se o usuário e a senha correspondem aos dados no localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const user = users.find(u => u.username === username && u.password === password);
 
