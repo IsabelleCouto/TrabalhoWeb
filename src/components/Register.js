@@ -44,7 +44,7 @@ const Register = ({ onRegister }) => {
                 />
               </div>
               <div className="d-grid gap-2">
-                <button className="btn btn-primary" onClick={handleRegister}>Cadastrar</button>
+                <button className="btn btn-info text-white" onClick={handleRegister}>Cadastrar</button>
               </div>
             </div>
           </div>

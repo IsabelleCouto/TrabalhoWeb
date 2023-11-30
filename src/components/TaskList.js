@@ -13,7 +13,7 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
         <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Tarefa</th>
+              <th scope="col">Atividade</th>
               <th scope="col" style={{ width: '15%' }}>Data de Criação</th>
               <th scope="col" style={{ width: '15%' }}>Hora de Criação</th>
               <th scope="col" style={{ width: '10%' }}>Status</th>
@@ -37,7 +37,7 @@ const TaskList = ({ tasks, onCompleteTask, onDeleteTask }) => {
                     className={`btn ${task.completed ? 'btn-secondary' : 'btn-success'}`}
                     onClick={() => onCompleteTask(task.id)}
                   >
-                    {task.completed ? 'Desfazer' : 'Completa'}
+                    {task.completed ? 'Desfazer' : 'Feito'}
                   </button>
                 </td>
                 <td style={{ width: '10%' }}>

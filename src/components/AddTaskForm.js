@@ -19,11 +19,11 @@ const AddTaskForm = ({ onAddTask }) => {
             <input
               type="text"
               className="form-control"
-              placeholder="Digite uma nova tarefa"
+              placeholder="Digite uma nova atividade"
               value={task}
               onChange={(e) => setTask(e.target.value)}
             />
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-warning text-dark" type="submit">
               Adicionar
             </button>
           </div>

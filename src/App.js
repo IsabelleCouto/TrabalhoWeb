@@ -6,10 +6,9 @@ import TaskList from './components/TaskList';
 import Login from './components/Login';
 import Register from './components/Register';
 import Saudacao from './components/Saudacao';
-import Footer from './components/Footer';
 function App() {
   const [activeTab, setActiveTab] = useState('Faculdade');
-  const tabs = ['Faculdade', 'Trabalho', 'Casa'];
+  const tabs = ['Escola', 'Casa'];
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [username, setUsername] = useState('');
@@ -127,7 +126,6 @@ function App() {
           </>
         )}
       </div>
-      <Footer />
     </div>
   );
 }

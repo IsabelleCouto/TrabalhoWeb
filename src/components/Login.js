@@ -46,8 +46,8 @@ const Login = ({ onLogin, onRegister }) => {
                 />
               </div>
               <div className="d-grid gap-2">
-                <button className="btn btn-primary" onClick={handleLogin}>Entrar</button>
-                <button className="btn btn-secondary" onClick={onRegister}>Cadastrar</button>
+                <button className="btn btn-info text-white" onClick={handleLogin}>Entrar</button>
+                <button className="btn btn-warning" onClick={onRegister}>Cadastrar</button>
               </div>
               {errorMessage && <p className="mt-3 text-danger">{errorMessage}</p>}
             </div>
